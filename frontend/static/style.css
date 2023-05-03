@@ -1,0 +1,13 @@
+.menu {
+    display: inherit!important;
+    text-align: center;
+}
+
+.menu img {
+    object-fit: cover;
+    max-width: 450px;
+}
+
+.menu input, a {
+    height: 37px;
+}

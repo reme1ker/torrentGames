@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="static/style.css">
+
+<title>QB Games</title>
+
+
+{% block menu %}
+    {% include "menu.html" %}
+{% endblock menu %}
+
+
+
+
+    {% block content %}
+            {% for games in games %}
+                        <a style="text-decoration: none" href="{% url 'game_detail' games.pk %}">
+                            {{ games.nazvanie }}
+                            {% if games.main_image %}
+                                <img style="height: 240px; width: 180px" src="{{ games.main_image.url }}">
+                            {% endif %}
+
+                                Загружен : {{ games.upload_date|date:"M d, Y" }}
+
+            {% endfor %}
+
+    {% endblock content %}
+
+    {% block right-panel %}
+        {% include "right_panel.html" %}
+    {% endblock right-panel %}

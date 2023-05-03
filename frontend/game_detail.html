@@ -1,0 +1,28 @@
+{% block menu %}
+    {% include "menu.html" %}
+{% endblock menu %}
+
+
+
+
+<h4> {{ games.nazvanie }}</h4>
+
+{% if games.main_image %}
+    <img class="col-4" style="height: 300px; width: 200px" src="{{ games.main_image.url }}">
+{% endif %}
+
+<a>Дата обновления: </a>{{ games.release_date }}<br>
+<a>Разработчик: </a>{{ games.developer }}<br>
+<a>Язык интерфейса: </a>{{ games.interface_language }}<br>
+<br><a style="font-weight: bold;">Системные требования:</a><br>
+<a>Операционная система: </a>{{ games.os }}<br>
+<a>Процессор:</a>{{ games.processor }}<br>
+<a>Оперативная память: </a>{{ games.ram }}<br>
+<a>Видеокарта: </a>{{ games.video_card }}<br>
+<a>Место на жестком диске: </a>{{ games.free_memory }}<br>
+
+
+Описание игры:
+{{ games.description }}
+
+
