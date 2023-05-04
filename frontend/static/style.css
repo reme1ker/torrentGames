@@ -1,13 +1,80 @@
+.body {
+    background-color: #ededed;
+    height: 100%;
+}
+
+.main-content {
+    background-color: white;
+    margin: 20px auto auto auto !important;
+    padding: 0 !important;
+    height: 100% !important;
+    box-shadow: 0px 0px 9px 2px gainsboro;
+}
+
 .menu {
-    display: inherit!important;
     text-align: center;
+    display: block !important;
+}
+
+.menu span {
+    position: fixed;
+    margin: 37px 0 0 2px;
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 300 !important;
+    font-size: large;
+    opacity: 0.8;
+    color: dodgerblue;
 }
 
 .menu img {
     object-fit: cover;
-    max-width: 450px;
+    max-width: 420px;
 }
 
-.menu input, a {
+.find-block {
+    display: -webkit-inline-box;
+}
+
+.search {
+    float: left;
+    margin: 3px 0px 0px 6px;
     height: 37px;
+    font-size: 18px;
+    color: #514f4f;
+    border: 0px;
+    min-width: 340px;
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 400;
+    padding: 0px 0px 0px 12px;
+    background: #ededed;
+}
+
+.find {
+    width: 140px;
+    border: none;
+    background-color: dodgerblue;
+    color: white;
+    height: 37px;
+    font-family: 'Open Sans';
+    border-radius: 0 7px 7px 0;
+}
+
+.register {
+    border: none;
+    background-color: white;
+    color: lightseagreen;
+}
+
+.enter {
+    border: none;
+    background-color: white;
+    color: dodgerblue;
+}
+
+.user-enter {
+    top: 30px;
+    left: 27%;
+    position: absolute;
 }
