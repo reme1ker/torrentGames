@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='Games',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nazvanie', models.CharField(blank=True, max_length=255, null=True, verbose_name='Название игры')),
+                ('game_name', models.CharField(blank=True, max_length=255, null=True, verbose_name='Название игры')),
                 ('upload_date', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Дата загрузки торрента')),
                 ('main_image', models.ImageField(blank=True, null=True, upload_to='images/', verbose_name='Обложка игры')),
                 ('release_date', models.DateTimeField(auto_now_add=True, verbose_name='Дата выпуска')),

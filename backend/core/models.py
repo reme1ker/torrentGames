@@ -11,7 +11,7 @@ class Games(models.Model):
         verbose_name = 'Игры'
         verbose_name_plural = 'Игры'
 
-    nazvanie = models.CharField('Название игры', max_length=255, blank=True, null=True)
+    game_name = models.CharField('Название игры', max_length=255, blank=True, null=True)
     upload_date = models.DateTimeField('Дата загрузки торрента', auto_now_add=True, editable=False, null=True)
     main_image = models.ImageField('Обложка игры', upload_to='images/', null=True, blank=True)
     release_date = models.DateTimeField('Дата выпуска', auto_now_add=True, editable=True)
@@ -26,4 +26,4 @@ class Games(models.Model):
     free_memory = models.CharField('Место на жестком диске', max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return self.nazvanie
+        return self.game_name

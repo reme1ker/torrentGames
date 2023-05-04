@@ -19,40 +19,48 @@
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="static/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css">
     <title>QB Games</title>
     <link rel="icon" href="media/favicon.svg" type="image/svg">
 </head>
 
 <body>
 <div class="body container-fluid mx-auto">
-    <div class="row">
+    <div class="row p0">
         <div class="main-content col-md-10 col-lg-8">
             {% block menu %}
                 {% include "menu.html" %}
             {% endblock menu %}
 
+            {% block slider %}
+                {% include "slider.html" %}
+            {% endblock slider %}
 
 
-            {% block content %}
-                {% for games in games %}
-                    <a style="text-decoration: none" href="{% url 'game_detail' games.pk %}"></a>
-                    {{ games.nazvanie }}
-                    {% if games.main_image %}
-                        <img style="height: 240px; width: 180px" src="{{ games.main_image.url }}">
-                    {% endif %}
 
-                    Загружен : {{ games.upload_date|date:"M d, Y" }}
-
-                {% endfor %}
-
-            {% endblock content %}
-
-            {% block right-panel %}
-                {% include "right_panel.html" %}
-            {% endblock right-panel %}
+{#            {% block content %}#}
+{#                {% for games in games %}#}
+{#                    <a style="text-decoration: none" href="{% url 'game_detail' games.pk %}"></a>#}
+{#                    {{ games.game_name }}#}
+{#                    {% if games.main_image %}#}
+{#                        <img style="height: 240px; width: 180px" src="{{ games.main_image.url }}">#}
+{#                    {% endif %}#}
+{##}
+{#                    Загружен : {{ games.upload_date|date:"M d, Y" }}#}
+{##}
+{#                {% endfor %}#}
+{##}
+{#            {% endblock content %}#}
+{##}
+{#            {% block right-panel %}#}
+{#                {% include "right_panel.html" %}#}
+{#            {% endblock right-panel %}#}
 
 
         </div>
     </div>
 </div>
+<script src="static/OwlCarousel2-2.3.4/dist/owl.carousel.min.js"></script>
+<script src="static/script.js"></script>
 </body>
