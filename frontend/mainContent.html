@@ -1,0 +1,41 @@
+<div class="container-fluid p0">
+    <div class="row">
+        <div class="MainContent col-md-9 p0 taC">
+
+            <ul class="menuContent">
+                <li class="firstLi">ВСЕ ИГРЫ</li>
+                <li>ГОРЯЧИЕ НОВИНКИ</li>
+                <li>КУЛЬТОВЫЕ ИГРЫ</li>
+                <li class="lastLi">ВЫБОР ПОЛЬЗОВАТЕЛЕЙ</li>
+            </ul>
+
+            <div class="content container-fluid">
+                <div class="row px-3">
+
+                    {% for games in games %}
+                        <div class="gameCard col-sm-10 col-md-6">
+                            <a style="text-decoration: none" href="{% url 'game_detail' games.pk %}"></a>
+
+                            {% if games.main_image %}
+                                <img style="height: 240px; width: 180px" src="{{ games.main_image.url }}">
+                            {% endif %}
+                            <div class="cardDiscription">
+                                <div class="gameName">{{ games.game_name }} </div>
+
+                                Загружен : {{ games.upload_date|date:"M d, Y" }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+        {% block right-panel %}
+            {% include "right_panel.html" %}
+        {% endblock right-panel %}
+
+    </div>
+</div>
+
+

@@ -1,3 +1,17 @@
-<div class="right-panel">
-sd
-</div>
+
+        <div class="RightPanel col-md-3 p0 taC">
+            <div class="categories">
+                <h5 class="categoriesTitle">Категории</h5>
+                {% for categories in categories %}
+                    {% if categories.category_name %}
+                         <a href=""> <div class="categoryName">
+                          {{ categories.category_name }}
+                        </div>
+                         </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="popular">
+            </div>
+        </div>

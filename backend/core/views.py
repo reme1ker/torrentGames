@@ -1,13 +1,16 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
 
-from backend.core.models import Games
+from backend.core.models import Games, Categories
 
 
 def index(request):
     games = Games.objects.all()
+    categories = Categories.objects.all()
     return render(request, 'index.html', {'title': 'Главная страница сайта',
-                                          'games': games})
+                                          'games': games,
+                                          'categories': categories
+                                          })
 
 
 def about(request):
