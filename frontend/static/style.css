@@ -34,7 +34,7 @@ body {
 
 .main-content {
     background-color: white;
-    margin: 20px auto auto auto !important;
+    margin: 20px auto 20px auto !important;
     padding: 0 !important;
     height: 100% !important;
     box-shadow: 0px 0px 9px 2px gainsboro;
@@ -64,7 +64,7 @@ body {
 
 .gameCard img {
     object-fit: cover;
-    max-width: 180px;
+    max-width: 160px;
 }
 
 .find-block {
@@ -167,13 +167,29 @@ body {
 .categories {
     background-color: lightgray;
     margin: 10px 20px 10px 10px;
+    border-radius: 7px;
+}
+
+.popular {
+    background-color: lightgray;
+    margin: 10px 20px 10px 10px;
+    border-radius: 7px;
 }
 
 .categoriesTitle {
     background-color: dodgerblue;
     color: white;
     padding: 15px 27px 15px 27px;
+    border-radius: 7px;
+    font-family: 'Open Sans';
+    margin-bottom: 0;
+}
 
+.popularTitle {
+    background-color: dodgerblue;
+    color: white;
+    padding: 15px 27px 15px 27px;
+    border-radius: 7px;
     font-family: 'Open Sans';
     margin-bottom: 0;
 }
@@ -193,13 +209,52 @@ body {
 }
 
 
-
 .categoryName:hover {
     color: black;
     background-color: lightskyblue;
-
+    border-radius: 7px;
 }
 
+.popular img {
+    object-fit: cover;
+    height: 10vh;
+    border: 1px solid #d3d3d3;
+    float: left;
+}
+
+.popular a {
+    text-decoration: none;
+    color: black;
+}
+
+.popular a:hover {
+    color: dodgerblue;
+}
+
+.popularCard {
+    display: flex;
+    margin: 10px 0 10px 0;
+    border-bottom: 1px solid #eeeeee;
+    padding: 10px;
+}
+
+.popularCard span {
+    float: left;
+    text-align: left;
+    margin: 0 0 0 10px;
+    overflow-wrap: normal;
+    font-size: 15px;
+    font-family: 'Open Sans';
+    font-weight: 500;
+}
+
+.footer{
+    background: #ededed;
+}
+
+.copyrights{
+    opacity: 0.3;
+}
 /*@media screen and (max-width: 820px) {*/
 /*    .user-enter {*/
 /*        top: 25px !important;*/
