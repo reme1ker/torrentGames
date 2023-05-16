@@ -16,7 +16,7 @@ from backend import core
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+CART_SESSION_ID = 'cart'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -38,7 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend',
-    'backend.core'
+    'backend.core',
+    'backend.users',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'filer',
+    'easy_thumbnails',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
@@ -116,6 +123,8 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "frontend/static/"),
@@ -126,5 +135,8 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+LOGIN_REDIRECT_URL = 'home_page'
+LOGIN_URL = 'login'

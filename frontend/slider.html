@@ -1,13 +1,13 @@
-
-
+{% load slider_tags %}
 <div class="container-fluid w100 p0">
     <div class="row w100 p0  m0">
         <div class="owl-carousel owl-theme col-md-12 col-lg-10 p0" id="slider">
-            {% for games in games %}
-                {% if games.main_image %}
+        {% get_games  as games %}
+            {% for game in games %}
+                {% if game.main_image %}
                     <div class="slide">
-                        <a href="#" class="slide__link"><img src="{{ games.main_image.url }}">
-                        <div class="slide__title">{{ games.game_name }}</div>
+                        <a style="text-decoration: none" href="{% url 'game_detail' game.pk %}"><img src="{{ game.main_image.url }}">
+                            <div class="slide__title">{{ game.game_name }}</div>
                         </a>
                     </div>
                 {% endif %}
@@ -15,3 +15,5 @@
         </div>
     </div>
 </div>
+
+

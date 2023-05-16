@@ -1,12 +1,14 @@
+{% load slider_tags %}
 <div class="RightPanel col-md-3 p0 taC">
 
     <div class="categories">
         <h5 class="categoriesTitle">Категории</h5>
-        {% for categories in categories %}
-            {% if categories.category_name %}
+        {% get_categories as categories %}
+        {% for category in categories %}
+            {% if category.category_name %}
                 <a href="">
                     <div class="categoryName">
-                        {{ categories.category_name }}
+                        {{ category.category_name }}
                     </div>
                 </a>
             {% endif %}
@@ -15,13 +17,14 @@
 
     <div class="popular">
         <h5 class="popularTitle">Популярные</h5>
-        {% for games in games %}
+        {% get_games as games %}
+        {% for game in games %}
             <div class="popularCard col-12">
-                <a href="">
-                    <img src="{{ games.main_image.url }}">
-                    <span>{{ games.game_name }}<br>
-                        {% if games.free_memory %}
-                            {{ games.free_memory }}
+                <a style="text-decoration: none" href="{% url 'game_detail' game.pk %}">
+                    <img src="{{ game.main_image.url }}">
+                    <span>{{ game.game_name }}<br>
+                        {% if game.free_memory %}
+                            {{ game.free_memory }}
                         {% endif %}</span>
                 </a>
             </div>

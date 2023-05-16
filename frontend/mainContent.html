@@ -1,41 +1,90 @@
-<div class="container-fluid p0">
-    <div class="row">
-        <div class="MainContent col-md-9 p0 taC">
+{% extends "index.html" %}
+{% block content %}
+    {% block slider %}
+        {% include "slider.html" %}
+    {% endblock slider %}
 
-            <ul class="menuContent">
-                <li class="firstLi">ВСЕ ИГРЫ</li>
-                <li>ГОРЯЧИЕ НОВИНКИ</li>
-                <li>КУЛЬТОВЫЕ ИГРЫ</li>
-                <li class="lastLi">ВЫБОР ПОЛЬЗОВАТЕЛЕЙ</li>
-            </ul>
+    <script>
+        function doFunction() {
+            if (confirm('Войдите в аккаунт или зарегистрируйтесь чтобы купить игру')) {
+                window.location = '/register/';
+            } else {
+            }
 
-            <div class="content container-fluid">
-                <div class="row px-3">
+        }
+    </script>
 
-                    {% for games in games %}
-                        <div class="gameCard col-sm-10 col-md-6">
-                            <a style="text-decoration: none" href="{% url 'game_detail' games.pk %}"></a>
+    <div class="container-fluid p0">
+        <div class="row">
+            <div class="MainContent col-md-9 p0 taC">
 
-                            {% if games.main_image %}
-                                <img style="height: 240px; width: 180px" src="{{ games.main_image.url }}">
-                            {% endif %}
-                            <div class="cardDiscription">
-                                <div class="gameName">{{ games.game_name }} </div>
+                <ul class="menuContent">
+                    <li class="firstLi">ВСЕ ИГРЫ</li>
+                    <li>ГОРЯЧИЕ НОВИНКИ</li>
+                    <li>КУЛЬТОВЫЕ ИГРЫ</li>
+                    <li class="lastLi">ВЫБОР ПОЛЬЗОВАТЕЛЕЙ</li>
+                </ul>
 
-                                Загружен : {{ games.upload_date|date:"M d, Y" }}
+                <div class="content container-fluid">
+                    <div class="row px-3">
+
+                        {% for games in games %}
+                            <div class="gameCard col-sm-10 col-md-6">
+
+
+                                {% if games.main_image %}
+                                    <a style="text-decoration: none" href="{% url 'game_detail' games.pk %}"> <img
+                                            style="height: 240px; width: 180px" src="{{ games.main_image.url }}"> </a>
+                                {% endif %}
+                                <div class="cardDiscription">
+                                    <a style="text-decoration: none" href="{% url 'game_detail' games.pk %}">
+                                        <div class="gameName">{{ games.game_name }} </div>
+                                    </a>
+                                    {% if games.developer %}
+                                        <div class="dev"> Разработчик: {{ games.developer }}</div>   {% endif %}
+                                    {% if games.categories %}
+                                        <div class="date"> Категории
+                                            игры: {{ games.get_categories }}</div>   {% endif %}
+
+                                    {% if games.free_memory %}
+                                        <div class="mem"> Место на диске: {{ games.free_memory }}</div>   {% endif %}
+
+                                    <div class="priceBlock">
+                                        <div class="price-card">
+                                            <div class="discount">-{{ games.discount }}%</div>
+                                            <div class="prices">
+                                                <div class="old-price">{{ games.price }} руб.</div>
+                                                <div class="new-price">{{ games.price_with_discount }} руб.</div>
+                                            </div>
+                                        </div>
+                                        {% if user.is_authenticated %}
+                                            <button id="addToBasket" type="submit" class="btn btn-primary addToBasket">
+                                                Добавить в корзину
+                                            </button>
+                                        {% else %}
+                                            <button id="buyToRegister" onclick="doFunction()"
+                                                    class="btn btn-primary addToBasket">
+                                                Добавить в корзину
+                                            </button>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+
+
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
+
             </div>
 
+            {% block right-panel %}
+                {% include "right_panel.html" %}
+            {% endblock right-panel %}
+
         </div>
-
-        {% block right-panel %}
-            {% include "right_panel.html" %}
-        {% endblock right-panel %}
-
     </div>
-</div>
 
+{% endblock content %}
 

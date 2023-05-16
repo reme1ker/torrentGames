@@ -1,9 +1,6 @@
 from django.db import models
-
-LANGUAGE = ((1, 'Русский'),
-            (2, 'Английский'),
-            (0, 'Польский'),
-            (3, 'Румынский'))
+from filer.fields.image import FilerImageField
+from filer.fields.file import FilerFileField
 
 RAM = ((0, '< 2GB'),
        (1, '2 GB'),
@@ -60,6 +57,17 @@ class Processors(models.Model):
         return self.processor_name
 
 
+class InterfaceLanguage(models.Model):
+    class Meta:
+        verbose_name = 'Язык'
+        verbose_name_plural = 'Языки'
+
+    language_name = models.CharField('Язык', max_length=255, blank=False, null=False)
+
+    def __str__(self):
+        return self.language_name
+
+
 class VideoCards(models.Model):
     class Meta:
         verbose_name = 'Видеокарта'
@@ -76,13 +84,16 @@ class Games(models.Model):
         verbose_name = 'Игры'
         verbose_name_plural = 'Игры'
 
-    game_name = models.CharField('Название игры', max_length=255, blank=True, null=True)
-    upload_date = models.DateTimeField('Дата загрузки торрента', auto_now_add=True, editable=False, null=True)
-    main_image = models.ImageField('Обложка игры', upload_to='images/', null=True, blank=True)
-    release_date = models.DateTimeField('Дата выпуска', auto_now_add=True, editable=True)
+    game_name = models.CharField('Название игры', max_length=255, blank=False, null=False)
+    price = models.IntegerField('Цена игры', null=True, blank=True)
+    discount = models.IntegerField('Скидка на игру в процентах', null=True, blank=True)
+    price_with_discount = models.IntegerField('Цена игры со скидкой', null=True, blank=True)
+    main_image = models.ImageField('Обложка игры', upload_to='images/', null=False, blank=False)
+    release_date = models.DateField('Дата выпуска', auto_now_add=False, editable=True)
     developer = models.ForeignKey(Developers, verbose_name='Разработчик', on_delete=models.PROTECT, blank=True,
                                   null=True)
-    interface_language = models.IntegerField('Язык интерфейса', choices=LANGUAGE, null=True, blank=True)
+    interface_language = models.ForeignKey(InterfaceLanguage, on_delete=models.PROTECT, verbose_name='Язык интерфейса',
+                                           null=True, blank=True)
     description = models.TextField('Описание игры', null=True, blank=True)
     categories = models.ManyToManyField(Categories, verbose_name='Категория')
     os = models.ForeignKey(OperationSystems, verbose_name='Операционная система', on_delete=models.PROTECT, blank=True,
@@ -92,11 +103,49 @@ class Games(models.Model):
     video_card = models.ForeignKey(VideoCards, verbose_name='Видеокарта', on_delete=models.PROTECT, blank=True,
                                    null=True)
     free_memory = models.CharField('Место на жестком диске', max_length=255, blank=True, null=True)
-    download_counter = models.IntegerField('Количество скачиваний', null=True, blank=True, editable=False)
-    score = models.IntegerField('Оценка пользователей', null=True, blank=True, editable=False)
+    trailer = models.CharField('Трейлер игры (ссылка iframe youtube)', max_length=1000, blank=True, null=True)
+    score = models.IntegerField('Популярность игры', null=True, blank=True, editable=False)
 
     def __str__(self):
         return self.game_name
 
     def get_categories(self):
         return ", ".join([str(p) for p in self.categories.all()])
+
+    def price_with_discount(self):
+        if self.discount:
+            self.price_with_discount = int(self.price - ((self.price / 100) * self.discount))
+            return self.price_with_discount
+        else:
+            return self.price_with_discount
+
+    def get_foto_set(self):
+        return self.foto_set.select_related('img')
+
+
+class Screenchots(models.Model):
+    class Meta:
+        verbose_name = 'Cкриншот'
+        verbose_name_plural = 'Cкриншоты'
+
+    games = models.ForeignKey(Games, verbose_name='Игры', on_delete=models.CASCADE, null=True,
+                              blank=True,
+                              related_name='foto_set')
+    img = FilerImageField(verbose_name='Фото', on_delete=models.CASCADE, )
+
+
+class Review(models.Model):
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+
+    """Отзывы"""
+    name = models.CharField("Имя", max_length=100)
+    text = models.TextField("Сообщение", max_length=5000)
+    parent = models.ForeignKey(
+        'self', verbose_name="Родитель", on_delete=models.SET_NULL, blank=True, null=True, related_name="children"
+    )
+    movie = models.ForeignKey(Games, verbose_name="Игра", on_delete=models.CASCADE, related_name="reviews")
+
+    def __str__(self):
+        return f"{self.name} - {self.movie}"

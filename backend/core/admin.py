@@ -1,13 +1,20 @@
 from django.contrib import admin
 
-from backend.core.models import Games, Categories, Developers, OperationSystems, Processors, VideoCards
+from backend.core.models import Games, Categories, Developers, OperationSystems, Processors, VideoCards, Screenchots, \
+    InterfaceLanguage, Review
+
+
+class ImageInline(admin.StackedInline):
+    model = Screenchots
 
 
 class GamesModelAdmin(admin.ModelAdmin):
-    list_display = ["game_name", "upload_date", "release_date", "developer", "description", "os", "get_categories",
+    list_display = ["game_name", "price", "discount", "release_date", "developer",
+                    "os", "get_categories",
                     "processor", "ram",
                     "video_card", "free_memory"]
     list_editable = []
+    inlines = [ImageInline]
 
     class Meta:
         model = Games
@@ -41,6 +48,13 @@ class ProcessorsModelAdmin(admin.ModelAdmin):
         model = Processors
 
 
+class InterfaceLanguageModelAdmin(admin.ModelAdmin):
+    list_display = ["language_name"]
+
+    class Meta:
+        model = InterfaceLanguage
+
+
 class VideoCardsModelAdmin(admin.ModelAdmin):
     list_display = ["video_card_name"]
 
@@ -48,9 +62,18 @@ class VideoCardsModelAdmin(admin.ModelAdmin):
         model = VideoCards
 
 
+class RevieWModelAdmin(admin.ModelAdmin):
+    list_display = ["name", "text", "parent", "movie", ]
+
+    class Meta:
+        model = Review
+
+
 admin.site.register(Developers, DevelopersModelAdmin)
 admin.site.register(OperationSystems, OperationSystemsModelAdmin)
 admin.site.register(Processors, ProcessorsModelAdmin)
 admin.site.register(VideoCards, VideoCardsModelAdmin)
 admin.site.register(Categories, CategoriesModelAdmin)
+admin.site.register(InterfaceLanguage, InterfaceLanguageModelAdmin)
 admin.site.register(Games, GamesModelAdmin)
+admin.site.register(Review, RevieWModelAdmin)

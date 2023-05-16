@@ -1,28 +1,102 @@
-{% block menu %}
-    {% include "menu.html" %}
-{% endblock menu %}
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
 
+    {% block slider %}
+        {% include "slider.html" %}
+    {% endblock slider %}
 
+    <script>
+        function doFunction() {
+            if (confirm('Войдите в аккаунт или зарегистрируйтесь чтобы купить игру')) {
+                window.location = '/register/';
+            } else {
+            }
 
+        }
+    </script>
 
-<h4> {{ games.game_name }}</h4>
+    <div class="container-fluid p0">
+        <div class="row">
+            <div class="GameDetail col-md-9 p0 taC">
 
-{% if games.main_image %}
-    <img class="col-4" style="height: 300px; width: 200px" src="{{ games.main_image.url }}">
-{% endif %}
+                {% load thumbnail %}
 
-<a>Дата обновления: </a>{{ games.release_date }}<br>
-<a>Разработчик: </a>{{ games.developer }}<br>
-<a>Язык интерфейса: </a>{{ games.interface_language }}<br>
-<br><a style="font-weight: bold;">Системные требования:</a><br>
-<a>Операционная система: </a>{{ games.os }}<br>
-<a>Процессор:</a>{{ games.processor }}<br>
-<a>Оперативная память: </a>{{ games.ram }}<br>
-<a>Видеокарта: </a>{{ games.video_card }}<br>
-<a>Место на жестком диске: </a>{{ games.free_memory }}<br>
+                <h4> {{ games.game_name }}</h4>
 
+                {% if games.main_image %}
+                    <img class="col-4" style="height: 300px; width: 200px" src="{{ games.main_image.url }}">
+                {% endif %}
+                <div class="sys">
+                    {% if games.release_date %} <a>Дата выпуска игры: </a>{{ games.release_date }}<br>{% endif %}
+                    {% if games.developer %}  <a>Разработчик: </a>{{ games.developer }}<br>{% endif %}
+                    {% if games.interface_language %}<a>Язык интерфейса: </a>{{ games.interface_language }}
+                        <br>{% endif %}
+                    {% if games.categories %} <a>Категория: </a>{{ games.get_categories }}{% endif %}
+                    <br><a style="font-weight: bold;">Системные требования:</a><br>
+                    {% if games.os %} <a>Операционная система: </a>{{ games.os }}<br>{% endif %}
+                    {% if games.processor %} <a>Процессор:</a>{{ games.processor }}<br>{% endif %}
+                    {% if games.ram %}<a>Оперативная память: </a>{{ games.ram }}<br>{% endif %}
+                    {% if games.video_card %}<a>Видеокарта: </a>{{ games.video_card }}<br>{% endif %}
+                    {% if games.free_memory %} <a>Место на жестком диске: </a>{{ games.free_memory }}<br>{% endif %}
+                    <div style="position:inherit!important;" class="priceBlock">
+                        <div class="price-card">
+                            <div class="discount">-{{ games.discount }}%</div>
+                            <div class="prices">
+                                <div class="old-price">{{ games.price }} руб.</div>
+                                <div class="new-price">{{ games.price_with_discount }} руб.</div>
+                            </div>
+                        </div>
+                        {% if user.is_authenticated %}
+                            <button id="addToBasket" type="submit" class="btn btn-primary addToBasket">
+                                Добавить в корзину
+                            </button>
+                        {% else %}
+                            <button id="buyToRegister" onclick="doFunction()"
+                                    class="btn btn-primary addToBasket">
+                                Добавить в корзину
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
 
-Описание игры:
-{{ games.description }}
+                {% if games.description %}
+                    <div class="discr">
+                        <h5>Описание игры:</h5>
+                        {{ games.description }}
+                    </div>
+                {% endif %}
 
+                {% if games.trailer %}
+                    <div class="trailer">
+                        <h5>Трейлер игры</h5>
+                        <iframe width="560" height="315" src='{{ games.trailer }}' title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>
+                    </div>
+                {% endif %}
 
+                {% if games.foto_set %}
+                    <div class="screens">
+                        <h5>Скриншоты игры</h5>
+                        <ul class="gallery">
+                            {% for i_games in games.foto_set.all %}
+                                <img src="{% thumbnail i_games.img 700x395 crop %}" width="400"/>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+            </div>
+            {% block right-panel %}
+                {% include "right_panel.html" %}
+            {% endblock right-panel %}
+        </div>
+    </div>
+
+    {% block review %}
+        {% include "review.html" %}
+    {% endblock review %}
+
+{% endblock content %}
