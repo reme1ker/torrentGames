@@ -4,15 +4,19 @@
             <h4>Отзывы</h4>
 
             {% if user.is_authenticated %}
-
-                <h5 style="text-align: left">Напишите отзыв об этой игре!</h5>
-                <div class="writeReview">
-                    <div class="input-group flex-nowrap">
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
-                        <button class="acceptReview btn btn-success">Принять</button>
+                <form action="{% url 'add_review' games.id %}" method="post" class="mt-4"
+                      id="formReview">
+                    {% csrf_token %}
+                    <h5 style="text-align: left">Напишите отзыв об этой игре!</h5>
+                    <input type="hidden" name="parent" id="contactparent" value="">
+                    <div class="writeReview">
+                        <div class="input-group flex-nowrap">
+                            <textarea class="form-control" id="contactcomment" rows="2"
+                                      name="text"></textarea>
+                            <button class="acceptReview btn btn-success" type="submit">Принять</button>
+                        </div>
                     </div>
-                </div>
-
+                </form>
             {% else %}
 
                 <h5 style="text-align: center; opacity: 0.6" class="py-2">Зарегистрируйтесь на сайте чтобы оставлять
@@ -24,7 +28,7 @@
                 {% for review in reviews %}
                     <div class="reviewBlock container-fluid ">
                         <div class="d-flex justify-content-between align-items-center row">
-                            <div class="reviewName col-md-3">
+                            <div class="reviewName col-md-2 p0">
                                 {% for profile in profile %}
                                     {% if profile.user_id == review.name_id %}
                                         <img class="reviewImg" src="{{ profile.image.url }}">
@@ -32,19 +36,47 @@
                                 {% endfor %}
                                 {{ review.name }}
                             </div>
-                            <div class="reviewText col-md-8">
+                            <div class="reviewText col-md-9 mx-auto p0">
                                 {{ review.text }}
+                                <a href="#formReview" class="but"
+                                   onclick="addReview('{{ review.name }}', '{{ review.id }}')">Ответить</a>
                             </div>
                         </div>
-
                     </div>
-
+                    {% for reviewsCh in reviewsChs %}
+                        {% if reviewsCh.parent.id == review.id %}
+                            <div style="width: 90%;     margin-right: 0;" class="reviewBlock container-fluid ">
+                                <div class="d-flex justify-content-between align-items-center row">
+                                    <div class="reviewName col-md-3">
+                                        {% for profile in profile %}
+                                            {% if profile.user_id == reviewsCh.name_id %}
+                                                <img class="reviewImg" src="{{ profile.image.url }}">
+                                            {% endif %}
+                                        {% endfor %}
+                                        {{ reviewsCh.name }}
+                                    </div>
+                                    <div class="reviewText col-md-8">
+                                        {{ reviewsCh.text }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
+
+
             {% else %}
                 {% if user.is_authenticated %}
                     <h4 style="opacity: 0.5">Отзывов об этой игре еще нет, станьте первым!</h4>
                 {% endif %}
             {% endif %}
+
         </div>
     </div>
 </div>
+<script>
+    function addReview(name, id) {
+        document.getElementById("contactparent").value = id;
+        document.getElementById("contactcomment").innerText = `${name}, `
+    }
+</script>

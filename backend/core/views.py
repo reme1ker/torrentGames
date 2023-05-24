@@ -1,21 +1,14 @@
 from django.contrib import messages
 from django.shortcuts import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import DetailView
+from django.shortcuts import render
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from fpdf import FPDF
-from rest_framework.response import Response
-import json
 from backend.core.models import Games, Basket, Order, Categories, Review
-from rest_framework.views import APIView
-
-from core import serializers
+from backend.core.forms import ReviewAddForm
 from core.randomkey import randomkey
-from core.serializers import ReviewCreateSerializer, GameDetailSerializer, BasketSerializer
 import subprocess
-
 from backend.users.models import Profile
-
+from django.db.models import Q
 
 def index(request, category_id=None, filtered=None):
     query = request.GET.get('q')
@@ -56,12 +49,27 @@ def index(request, category_id=None, filtered=None):
 
 def game_detail(request, pk):
     games = Games.objects.get(id=pk)
-    reviews = Review.objects.filter(game=pk)
+    reviews = Review.objects.filter(game=pk, parent=None)
+    reviewsChs = Review.objects.filter(~Q(parent=None), game=pk)
     profile = Profile.objects.all()
     return render(request, 'game_detail.html', {'games': games,
                                                 'reviews': reviews,
+                                                'reviewsChs': reviewsChs,
                                                 'profile': profile})
 
+
+def add_review(request, pk):
+    form = ReviewAddForm(request.POST)
+    game = Games.objects.get(id=pk)
+    if form.is_valid():
+        form = form.save(commit=False)
+        if request.POST.get("parent", None):
+            form.parent_id = int(request.POST.get("parent"))
+        form.game_id = game.id
+        form.name_id = request.user.id
+        form.save()
+        messages.success(request, f'Ваш отзыв успешно добавлен')
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 def basket_add(request, game_id):

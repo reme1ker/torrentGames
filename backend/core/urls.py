@@ -9,6 +9,7 @@ urlpatterns = [
     path('category/<int:category_id>/', views.index, name='category'),
     path('filtered/<int:filtered>/', views.index, name='filtered'),
     path('game/<int:pk>/', views.game_detail, name='game_detail'),
+    path('reviews/<int:pk>/', views.add_review, name='add_review'),
     path('games/api/', GamesDV.as_view(), name='games'),
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),

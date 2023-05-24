@@ -1,6 +1,6 @@
 from django import forms
 
-from core.models import Review
+from backend.core.models import Review
 
 
 class ReviewAddForm(forms.ModelForm):

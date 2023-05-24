@@ -13,7 +13,7 @@ class GamesModelAdmin(admin.ModelAdmin):
                     "os", "get_categories",
                     "processor", "ram",
                     "video_card", "free_memory"]
-    list_editable = []
+    search_fields = ["game_name", "release_date"]
     inlines = [ImageInline]
 
     class Meta:
@@ -64,6 +64,7 @@ class VideoCardsModelAdmin(admin.ModelAdmin):
 
 class RevieWModelAdmin(admin.ModelAdmin):
     list_display = ["name", "text", "parent", "game", ]
+    search_fields = ["text"]
 
     class Meta:
         model = Review

@@ -126,6 +126,9 @@ class Games(models.Model):
     def get_foto_set(self):
         return self.foto_set.select_related('img')
 
+    def get_review(self):
+        return self.reviews_set.filter(parent__isnull=True)
+
 
 class Screenchots(models.Model):
     class Meta:
@@ -143,13 +146,12 @@ class Review(models.Model):
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
 
-    """Отзывы"""
     name = models.ForeignKey(Profile, verbose_name="Пользователь", on_delete=models.PROTECT)
     text = models.TextField("Сообщение", max_length=5000)
     parent = models.ForeignKey(
         'self', verbose_name="Родитель", on_delete=models.SET_NULL, blank=True, null=True, related_name="children"
     )
-    game = models.ForeignKey(Games, verbose_name="Игра", on_delete=models.CASCADE, related_name="reviews")
+    game = models.ForeignKey(Games, verbose_name="Игра", on_delete=models.CASCADE, related_name="reviews_set")
 
     def __str__(self):
         return f"{self.name} - {self.game}"

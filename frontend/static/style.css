@@ -76,7 +76,8 @@ body {
 .find-block {
     display: -webkit-inline-box;
 }
-.find-block form{
+
+.find-block form {
     display: inherit;
 }
 
@@ -147,7 +148,7 @@ body {
     background-color: dodgerblue;
     color: white;
     padding: 15px 27px 15px 27px;
-    font-family: 'Serif';
+    font-family: inherit!important;
 }
 
 .menuContent a {
@@ -232,7 +233,7 @@ body {
 }
 
 
-.categoryName:hover {
+.categoryName:hover, .categoryName:focus{
     color: black;
     background-color: lightskyblue;
     border-radius: 7px;
@@ -561,6 +562,13 @@ iframe:hover {
 
 .table tbody tr {
     background: aliceblue;
+}
+
+.but {
+    float: right;
+    text-align: right;
+    padding: 0 50px 0 0;
+    text-decoration: none;
 }
 
 /*@media screen and (max-width: 820px) {*/
