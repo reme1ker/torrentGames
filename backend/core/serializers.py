@@ -19,7 +19,7 @@ class GamesSerializer(serializers.ModelSerializer):
 
 
 class FilterReviewListSerializer(serializers.ListSerializer):
-    """Фильтр комментариев, только parents"""
+
 
     def to_representation(self, data):
         data = data.filter(parent=None)
@@ -27,7 +27,6 @@ class FilterReviewListSerializer(serializers.ListSerializer):
 
 
 class RecursiveSerializer(serializers.Serializer):
-    """Вывод рекурсивно children"""
 
     def to_representation(self, value):
         serializer = self.parent.parent.__class__(value, context=self.context)
@@ -35,7 +34,6 @@ class RecursiveSerializer(serializers.Serializer):
 
 
 class ReviewCreateSerializer(serializers.ModelSerializer):
-    """Добавление отзыва"""
 
     class Meta:
         model = Review
@@ -43,7 +41,6 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    """Вывод отзыво"""
     children = RecursiveSerializer(many=True)
 
     class Meta:
