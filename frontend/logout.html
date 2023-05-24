@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+{% block content %}
+    {% block slider %}
+        {% include "slider.html" %}
+    {% endblock slider %}
+    <html>
+    <head>
+        <meta http-equiv="refresh" content="1;url=/"/>
+    </head>
+    </html>
+    <div class="container-fluid p0 registerForm">
+        <div class="row">
+                        <h3 class="py-2">Вы вышли из своей учетной записи</h3>
+            <div class=" pt-3">
+
+                <a href="{% url 'home_page' %}"><h5>Вернуться на главную</h5></a>
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}

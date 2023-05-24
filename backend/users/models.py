@@ -11,4 +11,4 @@ class Profile(models.Model):
     image = models.ImageField(default='default.jpg', verbose_name='Аватар', upload_to='profile_pics')
 
     def __str__(self):
-        return f'{self.user.username} Профиль'
+        return f'{self.user.username}'

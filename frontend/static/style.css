@@ -76,6 +76,9 @@ body {
 .find-block {
     display: -webkit-inline-box;
 }
+.find-block form{
+    display: inherit;
+}
 
 .search {
     float: left;
@@ -134,17 +137,21 @@ body {
 
 .menuContent {
     display: inline-flex;
-    margin: 10px;
+    margin: 20px 0 10px 0;
     text-align: center;
     padding: 0;
 }
 
-.menuContent li {
+.menuContent span {
     list-style-type: none;
     background-color: dodgerblue;
     color: white;
     padding: 15px 27px 15px 27px;
     font-family: 'Serif';
+}
+
+.menuContent a {
+    text-decoration: none;
 }
 
 .firstLi {
@@ -411,11 +418,35 @@ body {
     display: inline-block;
     border-radius: 50%;
     overflow: hidden;
-    width: 25vh;
-    height: 25vh;
+    width: 15vh;
+    height: 15vh;
 }
 
 .circle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reviewName {
+    FONT-FAMILY: cursive;
+}
+
+.reviewText {
+    text-align: left;
+    font-weight: 500;
+}
+
+.reviewImg {
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 7vh;
+    height: 7vh;
+
+}
+
+.reviewImg img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -434,6 +465,8 @@ body {
     box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1),
     0 0 0 2px rgb(255, 255, 255),
     0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    margin-bottom: 20px;
 }
 
 .writeReview {
@@ -452,15 +485,84 @@ body {
     padding: 10px 5px 10px 0;
 }
 
-.cardGames h5{
-        display: inherit;
+.cardGames h5 {
+    display: inherit;
     margin: 40px 0 0 40px;
     float: right;
 }
 
-.cardGames{
-        border-bottom: 2px solid lightgrey;
+.cardGames {
+    border-bottom: 2px solid lightgrey;
 }
+
+.list-pages li {
+    list-style-type: none;
+    display: inline-block;
+    margin: 20px;
+    font-size: 18px;
+}
+
+.list-pages a {
+    text-decoration: none;
+}
+
+#lightgallery .row {
+    display: inherit;
+}
+
+#lightgallery img:hover {
+    box-shadow: 1px -1px 15px 1px dodgerblue;
+}
+
+.gameCard img:hover {
+    box-shadow: 1px -1px 15px 1px dodgerblue;
+}
+
+.popularCard img:hover {
+    box-shadow: 1px -1px 15px 1px dodgerblue;
+}
+
+iframe:hover {
+    box-shadow: 1px -1px 15px 1px dodgerblue;
+}
+
+.writeReview textarea {
+    max-height: 25vh;
+}
+
+.child {
+    width: 90%;
+    float: right;
+}
+
+.list-group-item {
+    background-color: #ededed !important;
+}
+
+.list-group-item input {
+    text-align: center;
+    background-color: #ededed !important;
+}
+
+.DeleteGame {
+    border: none;
+    color: #008CBA;
+    background-color: #ededed;
+}
+
+.modal-body label {
+    padding: 5px 0 5px 0;
+    font-weight: 500;
+}
+
+.table thead {
+    background: lightblue;
+}
+
+.table tbody tr {
+    background: aliceblue;
+}
+
 /*@media screen and (max-width: 820px) {*/
 /*    .user-enter {*/
 /*        top: 25px !important;*/

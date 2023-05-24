@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from backend.core.models import Games, Categories, Developers, OperationSystems, Processors, VideoCards, Screenchots, \
-    InterfaceLanguage, Review
+    InterfaceLanguage, Review, Basket, Order
 
 
 class ImageInline(admin.StackedInline):
@@ -63,7 +63,7 @@ class VideoCardsModelAdmin(admin.ModelAdmin):
 
 
 class RevieWModelAdmin(admin.ModelAdmin):
-    list_display = ["name", "text", "parent", "movie", ]
+    list_display = ["name", "text", "parent", "game", ]
 
     class Meta:
         model = Review
@@ -77,3 +77,4 @@ admin.site.register(Categories, CategoriesModelAdmin)
 admin.site.register(InterfaceLanguage, InterfaceLanguageModelAdmin)
 admin.site.register(Games, GamesModelAdmin)
 admin.site.register(Review, RevieWModelAdmin)
+# admin.site.register(Order)

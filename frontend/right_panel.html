@@ -6,7 +6,7 @@
         {% get_categories as categories %}
         {% for category in categories %}
             {% if category.category_name %}
-                <a href="">
+                <a href="{% url 'category' category.id %}">
                     <div class="categoryName">
                         {{ category.category_name }}
                     </div>
@@ -16,8 +16,8 @@
     </div>
 
     <div class="popular">
-        <h5 class="popularTitle">Популярные</h5>
-        {% get_games as games %}
+        <h5 class="popularTitle">Новинки на сайте</h5>
+        {% get_games_new as games %}
         {% for game in games %}
             <div class="popularCard col-12">
                 <a style="text-decoration: none" href="{% url 'game_detail' game.pk %}">

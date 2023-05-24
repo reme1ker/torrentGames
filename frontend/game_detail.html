@@ -14,11 +14,15 @@
             }
 
         }
+    function youAded() {
+            alert("Игра успешно добавлена в корзину!")
+        }
+
     </script>
 
     <div class="container-fluid p0">
         <div class="row">
-            <div class="GameDetail col-md-9 p0 taC">
+            <div class="GameDetail col-md-9 taC">
 
                 {% load thumbnail %}
 
@@ -36,7 +40,7 @@
                     <br><a style="font-weight: bold;">Системные требования:</a><br>
                     {% if games.os %} <a>Операционная система: </a>{{ games.os }}<br>{% endif %}
                     {% if games.processor %} <a>Процессор:</a>{{ games.processor }}<br>{% endif %}
-                    {% if games.ram %}<a>Оперативная память: </a>{{ games.ram }}<br>{% endif %}
+                    {% if games.get_ram_display %}<a>Оперативная память: </a>{{ games.get_ram_display }}<br>{% endif %}
                     {% if games.video_card %}<a>Видеокарта: </a>{{ games.video_card }}<br>{% endif %}
                     {% if games.free_memory %} <a>Место на жестком диске: </a>{{ games.free_memory }}<br>{% endif %}
                     <div style="position:inherit!important;" class="priceBlock">
@@ -48,9 +52,10 @@
                             </div>
                         </div>
                         {% if user.is_authenticated %}
-                            <button id="addToBasket" type="submit" class="btn btn-primary addToBasket">
+                            <a href="{% url 'basket_add' games.id %}">
+                            <button onclick="youAded()" id="addToBasket" class="btn btn-primary addToBasket"  >
                                 Добавить в корзину
-                            </button>
+                            </button></a>
                         {% else %}
                             <button id="buyToRegister" onclick="doFunction()"
                                     class="btn btn-primary addToBasket">
@@ -78,13 +83,15 @@
                 {% endif %}
 
                 {% if games.foto_set %}
-                    <div class="screens">
+                    <div class="screens container-fluid">
                         <h5>Скриншоты игры</h5>
-                        <ul class="gallery">
+                        <div id="lightgallery" class="row">
                             {% for i_games in games.foto_set.all %}
-                                <img src="{% thumbnail i_games.img 700x395 crop %}" width="400"/>
+                                <a class="col-md-6 " href="{% thumbnail i_games.img 1980x1024 crop %}">
+                                    <img class="col-md-12" src="{% thumbnail i_games.img 1980x1024 crop %}"/>
+                                </a>
                             {% endfor %}
-                        </ul>
+                        </div>
                     </div>
                 {% endif %}
 
@@ -98,5 +105,10 @@
     {% block review %}
         {% include "review.html" %}
     {% endblock review %}
+    <script>
+        $(document).ready(function () {
+            lightGallery(document.getElementById('lightgallery'));
+        });
 
+    </script>
 {% endblock content %}

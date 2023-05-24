@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% block slider %}
+        {% include "slider.html" %}
+    {% endblock slider %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="row mx-auto">
+                <h4 style="text-align: center" class="modal-title" id="staticBackdropLabel">Вход на сайт</h4>
+            </div>
+        <div class="container-fluid p0 my-2 registerForm">
+            {{ form|crispy }}
+            <div class="border-top py-2">
+                <small class="text-muted">
+                    Нужен аккаунт? <a class="ml-2" href="{% url 'register' %}">Регистрация</a>
+                </small>
+            </div>
+            <button id="registerAccept" type="submit" class="btn btn-primary registerAccept">Войти</button>
+        </div>
+    </form>
+
+{% endblock content %}

@@ -1,0 +1,78 @@
+<script>
+    function youDeleted() {
+        alert("Товар удален из вашей корзины")
+    }
+</script>
+<div class="Card col-md-4 p0 mx-auto">
+    {% if baskets %}
+        <h4 class="mt-3 mb-3 d-flex justify-content-between align-items-center mb-3">
+            Корзина <span> Всего товаров: {{ baskets.total_quantity }}</span>
+        </h4>
+        {% for basket in baskets %}
+            <div class="card mb-3">
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">{{ basket.game.game_name }}</h5>
+                    <img src="{{ basket.game.main_image.url }}">
+                    <p> Цена игры со скидкой: {{ basket.game.price_with_discount }} </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-light">
+                        <div class="row text-center">
+                            <div class="col-lg-4">
+                                <span  type="number" class="form-control"
+                                       readonly>{{ basket.quantity }}</span>
+                            </div>
+                            <div style="padding: 5px" class="col-lg-4">
+                                {{ basket.sum }} руб.</div>
+                            <div style="padding: 5px" class="col-lg-4">
+                                <a href="{% url 'basket_remove' basket.id %}">
+                                    <button class="DeleteGame btn-primary" onclick="youDeleted()"><i
+                                            class="fas fa-trash"></i></button>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        {% endfor %}
+        <div class="container-fluid p0">
+            <div class="row">
+                <div style="font-size: 12px; padding: 10px 10px 0 0; opacity: 0.8; text-align: justify;"
+                     class="dio col-7">Данные
+                    продукты доступны для использования и
+                    активации
+                    в следующих странах: Россия,
+                    Республика Беларусь, Казахстан, Армения, Азербайджан, Киргизстан, Республика
+                    Молдова,
+                    Таджикистан, Туркменистан, Узбекистан.
+                </div>
+                <div style="text-align: center; float: left" class="itogo col-5 p0"><h5 style="margin: 20px 0 10px 0;">
+                    Итого:
+                    <span>{{ baskets.total_sum }}</span>
+                </h5>
+                    {% include "pay.html" %}
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <h4 class="py-2" style="text-align: left">Ваша корзина пуста</h4>
+    {% endif %}
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#qty_input').prop('disabled', true);
+        $('#plus-btn').click(function () {
+            $('#qty_input').val(parseInt($('#qty_input').val()) + 1);
+        });
+        $('#minus-btn').click(function () {
+            $('#qty_input').val(parseInt($('#qty_input').val()) - 1);
+            if ($('#qty_input').val() == 0) {
+                $('#qty_input').val(1);
+            }
+
+        });
+    });
+</script>

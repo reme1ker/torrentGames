@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% block slider %}
+        {% include "slider.html" %}
+    {% endblock slider %}
+
+    <div class="container-fluid p0 my-2">
+        <div class="row">
+            <div class="ProfileDetail col-md-4 p0 taC mx-auto">
+                <div class="content-section">
+                    <div class="media">
+                        <span class="circle-image">
+                        <img class="rounded-circle account-img mt-3" src="{{ user.profile.image.url }}">
+                        </span>
+                        <div class="media-body">
+                            <h2 class="account-heading">{{ user.username }}</h2>
+                            <p class="text-secondary">{{ user.email }}</p>
+                        </div>
+                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">Ваш профиль</legend>
+                            {{ u_form|crispy }}
+                            {{ p_form|crispy }}
+                        </fieldset>
+                        <div class="form-group">
+                            <button class="btn btn-outline-info mb-2" type="submit">Обновить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% include 'baskets.html' %}
+        </div>
+     {% include 'orders.html' %}
+    </div>
+{% endblock content %}

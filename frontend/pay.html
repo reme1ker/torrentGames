@@ -1,0 +1,61 @@
+<!-- Кнопка-триггер модального окна -->
+
+<button type="button" style="min-width: 200px; " data-bs-toggle="modal" class="btn-success btn"
+        data-bs-target="#staticBackdrop">Оплатить заказ
+</button>
+<script>
+    function payed() {
+        alert("Ваш заказ успешно оплачен! Ключи находятся в чеке -> профиль -> раздел 'Мои заказы'.")
+    }
+</script>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Оплата заказа <i class="bi bi-credit-card-2-front"></i>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+
+                <label for="exampleInputEmail1">Номер карты</label>
+                <input type="text" id="cardNumber" class="form-control"/>
+
+                <label for="exampleInputEmail1">Держатель карты</label>
+                <input type="text" id="cardHolder" class="form-control"/>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1">Срок использования</label>
+                        <input type="text" id="cardYears" class="form-control"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1">Трехзначный код</label>
+                        <input type="password" id="cardCode" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div style="font-size: 12px;  opacity: 0.8; text-align: justify;"
+                     class="dio mx-auto">Оплата принимается только с карт <span style="color: forestgreen">МИР</span>
+                </div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <a href="{% url 'order_add' baskets.total_sum %}">
+                    <button type="button" class="btn btn-success" onclick="payed()">Оплатить</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $("#cardNumber").mask("9999-9999-9999-9999");
+    $("#cardYears").mask("99/99");
+    $("#cardCode").mask("999");
+
+</script>

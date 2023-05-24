@@ -10,7 +10,10 @@
                 window.location = '/register/';
             } else {
             }
+        }
 
+        function youAded() {
+            alert("Игра успешно добавлена в корзину!")
         }
     </script>
 
@@ -18,49 +21,61 @@
         <div class="row">
             <div class="MainContent col-md-9 p0 taC">
 
-                <ul class="menuContent">
-                    <li class="firstLi">ВСЕ ИГРЫ</li>
-                    <li>ГОРЯЧИЕ НОВИНКИ</li>
-                    <li>КУЛЬТОВЫЕ ИГРЫ</li>
-                    <li class="lastLi">ВЫБОР ПОЛЬЗОВАТЕЛЕЙ</li>
-                </ul>
-
+                <div class="menuContent">
+                    <a href="{% url 'home_page' %}">
+                        <span class="firstLi">ВСЕ ИГРЫ</span>
+                    </a>
+                    <a href="{% url 'filtered' 1%} ">
+                        <span>ИГРЫ НА СЛАБЫЙ ПК</span>
+                    </a>
+                    <a href="{% url 'filtered' 2%} ">
+                        <span>ИГРЫ 2022 ГОДА</span>
+                    </a>
+                    <a href="{% url 'filtered' 3%} ">
+                        <span class="lastLi">БОЛЬШИЕ СКИДКИ</span>
+                    </a>
+                </div>
                 <div class="content container-fluid">
                     <div class="row px-3">
 
-                        {% for games in games %}
+                        {% for game in games %}
                             <div class="gameCard col-sm-10 col-md-6">
 
 
-                                {% if games.main_image %}
-                                    <a style="text-decoration: none" href="{% url 'game_detail' games.pk %}"> <img
-                                            style="height: 240px; width: 180px" src="{{ games.main_image.url }}"> </a>
+                                {% if game.main_image %}
+                                    <a style="text-decoration: none" href="{% url 'game_detail' game.pk %}"> <img
+                                            style="height: 240px; width: 180px" src="{{ game.main_image.url }}">
+                                    </a>
                                 {% endif %}
                                 <div class="cardDiscription">
-                                    <a style="text-decoration: none" href="{% url 'game_detail' games.pk %}">
-                                        <div class="gameName">{{ games.game_name }} </div>
+                                    <a style="text-decoration: none" href="{% url 'game_detail' game.pk %}">
+                                        <div class="gameName">{{ game.game_name }} </div>
                                     </a>
-                                    {% if games.developer %}
-                                        <div class="dev"> Разработчик: {{ games.developer }}</div>   {% endif %}
-                                    {% if games.categories %}
+                                    {% if game.developer %}
+                                        <div class="dev"> Разработчик: {{ game.developer }}</div>   {% endif %}
+                                    {% if game.categories %}
                                         <div class="date"> Категории
-                                            игры: {{ games.get_categories }}</div>   {% endif %}
+                                            игры: {{ game.get_categories }}</div>   {% endif %}
 
-                                    {% if games.free_memory %}
-                                        <div class="mem"> Место на диске: {{ games.free_memory }}</div>   {% endif %}
+                                    {% if game.free_memory %}
+                                        <div class="mem"> Место на
+                                            диске: {{ game.free_memory }}</div>   {% endif %}
 
                                     <div class="priceBlock">
                                         <div class="price-card">
-                                            <div class="discount">-{{ games.discount }}%</div>
+                                            <div class="discount">-{{ game.discount }}%</div>
                                             <div class="prices">
-                                                <div class="old-price">{{ games.price }} руб.</div>
-                                                <div class="new-price">{{ games.price_with_discount }} руб.</div>
+                                                <div class="old-price">{{ game.price }} руб.</div>
+                                                <div class="new-price">{{ game.price_with_discount }} руб.</div>
                                             </div>
                                         </div>
                                         {% if user.is_authenticated %}
-                                            <button id="addToBasket" type="submit" class="btn btn-primary addToBasket">
-                                                Добавить в корзину
-                                            </button>
+                                            <form action="baskets/add/{{ game.id }}/">
+                                                <button id="addToBasket" type="submit" onclick="youAded()"
+                                                        class="btn btn-primary addToBasket">
+                                                    Добавить в корзину
+                                                </button>
+                                            </form>
                                         {% else %}
                                             <button id="buyToRegister" onclick="doFunction()"
                                                     class="btn btn-primary addToBasket">
@@ -74,14 +89,40 @@
 
                             </div>
                         {% endfor %}
+
                     </div>
                 </div>
+
+                <nav class="list-pages">
+                    <ul>
+                        {% if page_obj.has_previous %}
+                            <li class="page-num">
+                                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+                            </li>
+                        {% endif %}
+                        {% for p in paginator.page_range %}
+                            {% if page_obj.number == p %}
+                                <li class="page-num page-num-selected">{{ p }}</li>
+                            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                                <li class="page-num">
+                                    <a href="?page={{ p }}">{{ p }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="page-num">
+                                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
 
             </div>
 
             {% block right-panel %}
                 {% include "right_panel.html" %}
             {% endblock right-panel %}
+
 
         </div>
     </div>

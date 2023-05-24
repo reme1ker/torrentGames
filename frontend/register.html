@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% block slider %}
+        {% include "slider.html" %}
+    {% endblock slider %}
+    <form method="post" >
+        {% csrf_token %}
+        <div class="container-fluid p0 registerForm">
+            <div class="row">
+                <h4 class="modal-title" id="staticBackdropLabel">Регистрация нового пользователя</h4>
+            </div>
+
+            {{ form|crispy }}
+
+            <div class="conf my-2">Нажимая на кнопку "Зарегистрироваться", Вы принимаете <a
+                    href="{% static 'Положение о конфиденциальности данных.pdf' %}" class="under">Положение</a> и даете
+                <span class="under">согласие </span>на
+                обработку персональных данных.
+            </div>
+            <div class="border-top py-1">
+                <small class="text-muted">
+                    Уже есть аккаунт? <a class="ml-2" href="/login/">Вход</a>
+                </small>
+            </div>
+            <button id="registerAccept" type="submit" class="btn btn-primary registerAccept">Зарегистрироваться</button>
+        </div>
+    </form>
+
+{% endblock content %}

@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h3 class="text-center mt-4">Мои заказы</h3>
+        {% if orders %}
+
+            <table class="table text-center">
+                <thead>
+                <tr>
+                    <th scope="col">id Заказа</th>
+                    <th scope="col">Пользователь</th>
+                    <th scope="col">Дата заказа</th>
+                    <th scope="col">Чек / Ключи товаров</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.initiator }}</td>
+                        <td>{{ order.data_order }}</td>
+                        <td><a href={% url 'orderpdf' order.id %}>
+                            <button type="button" class="btn btn-outline-info">Скачать pdf</button>
+                        </a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <h5 style="opacity: 0.5" class="py-2 text-center">У вас нет заказов</h5>
+        {% endif %}
+    </div>
+</div>

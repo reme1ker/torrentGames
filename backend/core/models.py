@@ -1,6 +1,7 @@
 from django.db import models
 from filer.fields.image import FilerImageField
-from filer.fields.file import FilerFileField
+
+from backend.users.models import Profile
 
 RAM = ((0, '< 2GB'),
        (1, '2 GB'),
@@ -11,17 +12,6 @@ RAM = ((0, '< 2GB'),
        (6, '12 GB'),
        (7, '14 GB'),
        (8, '16 GB'),)
-
-
-class Categories(models.Model):
-    class Meta:
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
-
-    category_name = models.CharField('Название категории', max_length=50, blank=False, null=False)
-
-    def __str__(self):
-        return self.category_name
 
 
 class Developers(models.Model):
@@ -79,6 +69,17 @@ class VideoCards(models.Model):
         return self.video_card_name
 
 
+class Categories(models.Model):
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
+    category_name = models.CharField('Название категории', max_length=50, blank=False, null=False)
+
+    def __str__(self):
+        return self.category_name
+
+
 class Games(models.Model):
     class Meta:
         verbose_name = 'Игры'
@@ -103,6 +104,9 @@ class Games(models.Model):
     video_card = models.ForeignKey(VideoCards, verbose_name='Видеокарта', on_delete=models.PROTECT, blank=True,
                                    null=True)
     free_memory = models.CharField('Место на жестком диске', max_length=255, blank=True, null=True)
+    show_in_slider = models.BooleanField('Показывать на главной странице в слайдере', default=False, null=True,
+                                         blank=True)
+    new = models.BooleanField('Новинка', default=True, null=True, blank=True)
     trailer = models.CharField('Трейлер игры (ссылка iframe youtube)', max_length=1000, blank=True, null=True)
     score = models.IntegerField('Популярность игры', null=True, blank=True, editable=False)
 
@@ -140,12 +144,67 @@ class Review(models.Model):
         verbose_name_plural = "Отзывы"
 
     """Отзывы"""
-    name = models.CharField("Имя", max_length=100)
+    name = models.ForeignKey(Profile, verbose_name="Пользователь", on_delete=models.PROTECT)
     text = models.TextField("Сообщение", max_length=5000)
     parent = models.ForeignKey(
         'self', verbose_name="Родитель", on_delete=models.SET_NULL, blank=True, null=True, related_name="children"
     )
-    movie = models.ForeignKey(Games, verbose_name="Игра", on_delete=models.CASCADE, related_name="reviews")
+    game = models.ForeignKey(Games, verbose_name="Игра", on_delete=models.CASCADE, related_name="reviews")
 
     def __str__(self):
-        return f"{self.name} - {self.movie}"
+        return f"{self.name} - {self.game}"
+
+
+class BasketQuerySet(models.QuerySet):
+    def total_sum(self):
+        return sum(basket.sum() for basket in self)
+
+    def total_quantity(self):
+        return sum(basket.quantity for basket in self)
+
+
+class Basket(models.Model):
+    user = models.ForeignKey(to=Profile, on_delete=models.CASCADE)
+    game = models.ForeignKey(to=Games, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(default=0)
+
+    objects = BasketQuerySet.as_manager()
+
+    def __str__(self):
+        return f'Корзина для {self.user.user} | Игра: {self.game.game_name}'
+
+    def sum(self):
+        return self.game.price_with_discount * self.quantity
+
+    def de_json(self):
+        basket_item = {
+            'game_name': self.game.game_name,
+            'quantity': self.quantity,
+            'price_with_discount': float(self.game.price_with_discount),
+            'sum': float(self.sum()),
+        }
+        return basket_item
+
+    @classmethod
+    def create_or_update(cls, game_id, user):
+        baskets = Basket.objects.filter(user=user, game_id=game_id)
+
+        if not baskets.exists():
+            obj = Basket.objects.create(user=user, game_id=game_id, quantity=1)
+            is_created = True
+            return obj, is_created
+        else:
+            basket = baskets.first()
+            basket.quantity += 1
+            basket.save()
+            is_crated = False
+            return basket, is_crated
+
+
+class Order(models.Model):
+    basket_history = models.JSONField(default=dict)
+    initiator = models.ForeignKey(to=Profile, on_delete=models.CASCADE)
+    data_order = models.DateField('Дата заказа', auto_now_add=True, blank=True, null=True, editable=True)
+
+    def __str__(self):
+        return f'Order #{self.id}. {self.initiator.user}'
