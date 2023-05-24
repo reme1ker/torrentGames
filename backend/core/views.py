@@ -63,24 +63,6 @@ def game_detail(request, pk):
                                                 'profile': profile})
 
 
-class ReviewCreateView(APIView):
-    """Добавление отзыва к фильму"""
-
-    def post(self, request):
-        review = ReviewCreateSerializer(data=request.data)
-        if review.is_valid():
-            review.save()
-        return Response(status=201)
-
-
-class GameSDetailView(APIView):
-    """Вывод фильма"""
-
-    def get(self, request, pk):
-        game = Games.objects.get(id=pk)
-        serializer = GameDetailSerializer(game)
-        return Response(serializer.data)
-
 
 def basket_add(request, game_id):
     game = Games.objects.get(id=game_id)

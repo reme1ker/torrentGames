@@ -6,4 +6,5 @@ from core.models import Review
 class ReviewAddForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ["name", "text", "parent", "game", ]
+        fields = ["text"]
+
