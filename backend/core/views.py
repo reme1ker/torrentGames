@@ -1,8 +1,11 @@
+import docx
 from django.contrib import messages
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import render
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from fpdf import FPDF
+from docx import Document
+from docx.shared import Pt
+
 from backend.core.models import Games, Basket, Order, Categories, Review
 from backend.core.forms import ReviewAddForm
 from core.randomkey import randomkey
@@ -124,87 +127,113 @@ def order_add(request, total):
 
 
 def orderpdf(request, order_id):
-    # /Настройка шрифтов и добавление страницы
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.add_font('DejaVu', '',
-                 'C:/Users/yurga/PycharmProjects/torrentGames/frontend/static/font/DejaVuSansCondensed.ttf',
-                 uni=True)
-    pdf.set_font('DejaVu', '', 12)
-    col_width = pdf.w / 4.5
-    row_height = pdf.font_size
-    spacing = 3
+    doc = docx.Document()
+    orders = Order.objects.filter(id=order_id)
+    # добавляем первый параграф
+    doc.add_paragraph("     Заказ №" + str(order_id))
 
-    # /Шапка
-    pdf.cell(200, 10,
-             txt="-  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  -",
-             ln=1, align="C")
-    pdf.cell(200, 10, txt="Кассовый чек", ln=1, align="C")
-    pdf.cell(200, 7, txt="Заказ №" + str(order_id), ln=1, align="C")
-
-    # Шапка таблицы
-    pdf.cell(col_width, row_height * spacing,
-             txt="Название", border=1, align="C")
-    pdf.cell(col_width, row_height * spacing,
-             txt="Количество", border=1, align="C")
-    pdf.cell(col_width, row_height * spacing,
-             txt="Ключ", border=1, align="C")
-    pdf.cell(col_width, row_height * spacing,
-             txt="Цена за ед.", border=1, align="C")
-    pdf.ln(row_height * spacing)
-
-    # Тело таблицы
     orders = Order.objects.filter(id=order_id)
     for order in orders:
         for item in order.basket_history:
             for game in order.basket_history[item]:
 
                 if game == "game":
-                    pdf.cell(col_width, row_height * spacing,
-                             txt=order.basket_history[item][game], border=1, align="C")
-
-                if game == "quantity" and order.basket_history[item][game] == 1:
-                    pdf.cell(col_width, row_height * spacing,
-                             txt=str(order.basket_history[item][game]), border=1, align="C")
+                    doc.add_paragraph(order.basket_history[item][game])
+                if game == "quantity":
                     for i in range(0, order.basket_history[item][game]):
-                        if order.basket_history[item][game] == 1:
-                            pdf.cell(col_width, row_height * spacing,
-                                     txt=randomkey(), border=1, align="C")
-                if game == "quantity" and order.basket_history[item][game] != 1:
-                    pdf.cell(col_width, row_height * spacing,
-                             txt=str(order.basket_history[item][game]), border=1, align="C")
-                    for i in range(0, order.basket_history[item][game]):
-                        if i == 0:
-                            pdf.cell(col_width, row_height * spacing,
-                                     txt=randomkey(), border=1, align="C")
-                        else:
-                            pdf.cell(col_width, row_height * spacing,
-                                     border=1)
-                            pdf.ln(row_height * spacing)
-                            pdf.cell(col_width, row_height * spacing,
-                                     border=1)
-                            pdf.cell(col_width, row_height * spacing,
-                                     border=1)
-                            pdf.cell(col_width, row_height * spacing,
-                                     txt=randomkey(), border=1, align="C")
-                if game == "price":
-                    pdf.cell(col_width, row_height * spacing,
-                             txt=str(order.basket_history[item][game]) + " р.", border=1, align="C")
-                if game == "total":
-                    total = order.basket_history[item][game]
-            pdf.ln(row_height * spacing)
+                        doc.add_paragraph(randomkey())
+                # if game == "price":
+                #      doc.add_paragraph(str(order.basket_history[item][game]))
+                # if game == "total":
+                #     total = order.basket_history[item][game]
 
-    pdf.cell(170, 10, txt="ИТОГО " + str(total), ln=1, align="R")
-    pdf.set_text_color(0, 110, 51)
-    pdf.cell(170, 10, txt="СТАТУС: ОПЛАЧЕНО", ln=1, align="R")
+    # doc.add_paragraph(str(total))
 
-    # /Footer
-    pdf.set_text_color(0, 0, 0)
-    pdf.cell(200, 10,
-             txt="-  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  -",
-             ln=1, align="C")
+    doc.save('out.docx')
+    subprocess.Popen('out.docx', shell=True)
 
-    pdf.output("C:/Users/yurga/PycharmProjects/torrentGames/frontend/static/check.pdf")  # /Выгрузка
-    subprocess.Popen("C:/Users/yurga/PycharmProjects/torrentGames/frontend/static/check.pdf",
-                     shell=True)  # /Открыть pdf
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+    # /Настройка шрифтов и добавление страницы
+    # pdf = FPDF()
+    # pdf.add_page()
+    # pdf.add_font('DejaVu', '',
+    #              'C:/Users/yurga/PycharmProjects/torrentGames/frontend/static/font/DejaVuSansCondensed.ttf',
+    #              uni=True)
+    # pdf.set_font('DejaVu', '', 12)
+    # col_width = pdf.w / 4.5
+    # row_height = pdf.font_size
+    # spacing = 3
+    #
+    # # /Шапка
+    # pdf.cell(200, 10,
+    #          txt="-  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  -",
+    #          ln=1, align="C")
+    # pdf.cell(200, 10, txt="Кассовый чек", ln=1, align="C")
+    # pdf.cell(200, 7, txt="Заказ №" + str(order_id), ln=1, align="C")
+    #
+    # # Шапка таблицы
+    # pdf.cell(col_width, row_height * spacing,
+    #          txt="Название", border=1, align="C")
+    # pdf.cell(col_width, row_height * spacing,
+    #          txt="Количество", border=1, align="C")
+    # pdf.cell(col_width, row_height * spacing,
+    #          txt="Ключ", border=1, align="C")
+    # pdf.cell(col_width, row_height * spacing,
+    #          txt="Цена за ед.", border=1, align="C")
+    # pdf.ln(row_height * spacing)
+    #
+    # # Тело таблицы
+    # orders = Order.objects.filter(id=order_id)
+    # for order in orders:
+    #     for item in order.basket_history:
+    #         for game in order.basket_history[item]:
+    #
+    #             if game == "game":
+    #                 pdf.cell(col_width, row_height * spacing,
+    #                          txt=order.basket_history[item][game], border=1, align="C")
+    #
+    #             if game == "quantity" and order.basket_history[item][game] == 1:
+    #                 pdf.cell(col_width, row_height * spacing,
+    #                          txt=str(order.basket_history[item][game]), border=1, align="C")
+    #                 for i in range(0, order.basket_history[item][game]):
+    #                     if order.basket_history[item][game] == 1:
+    #                         pdf.cell(col_width, row_height * spacing,
+    #                                  txt=randomkey(), border=1, align="C")
+    #             if game == "quantity" and order.basket_history[item][game] != 1:
+    #                 pdf.cell(col_width, row_height * spacing,
+    #                          txt=str(order.basket_history[item][game]), border=1, align="C")
+    #                 for i in range(0, order.basket_history[item][game]):
+    #                     if i == 0:
+    #                         pdf.cell(col_width, row_height * spacing,
+    #                                  txt=randomkey(), border=1, align="C")
+    #                     else:
+    #                         pdf.cell(col_width, row_height * spacing,
+    #                                  border=1)
+    #                         pdf.ln(row_height * spacing)
+    #                         pdf.cell(col_width, row_height * spacing,
+    #                                  border=1)
+    #                         pdf.cell(col_width, row_height * spacing,
+    #                                  border=1)
+    #                         pdf.cell(col_width, row_height * spacing,
+    #                                  txt=randomkey(), border=1, align="C")
+    #             if game == "price":
+    #                 pdf.cell(col_width, row_height * spacing,
+    #                          txt=str(order.basket_history[item][game]) + " р.", border=1, align="C")
+    #             if game == "total":
+    #                 total = order.basket_history[item][game]
+    #         pdf.ln(row_height * spacing)
+    #
+    # pdf.cell(170, 10, txt="ИТОГО " + str(total), ln=1, align="R")
+    # pdf.set_text_color(0, 110, 51)
+    # pdf.cell(170, 10, txt="СТАТУС: ОПЛАЧЕНО", ln=1, align="R")
+    #
+    # # /Footer
+    # pdf.set_text_color(0, 0, 0)
+    # pdf.cell(200, 10,
+    #          txt="-  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  -",
+    #          ln=1, align="C")
+    #
+    # pdf.output("C:/Users/yurga/PycharmProjects/torrentGames/frontend/static/check.pdf")  # /Выгрузка
+    # subprocess.Popen("C:/Users/yurga/PycharmProjects/torrentGames/frontend/static/check.pdf",
+    #                  shell=True)  # /Открыть pdf
