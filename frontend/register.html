@@ -8,8 +8,8 @@
     <form method="post" >
         {% csrf_token %}
         <div class="container-fluid p0 registerForm">
-            <div class="row">
-                <h4 class="modal-title" id="staticBackdropLabel">Регистрация нового пользователя</h4>
+            <div class="row container-fluid p0 m0">
+                <h4 class="modal-title  mx-auto" id="staticBackdropLabel">Регистрация нового пользователя</h4>
             </div>
 
             {{ form|crispy }}

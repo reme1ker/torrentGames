@@ -17,6 +17,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('baskets/add/<int:game_id>/', views.basket_add, name='basket_add'),
     path('baskets/remove/<int:basket_id>/', views.basket_remove, name='basket_remove'),
+    path('baskets/remove/<int:basket_id>/<int:game_id>/', views.basket_remove, name='basket_remove_one'),
     path('order/add/<int:total>/', views.order_add, name='order_add'),
     path('orderpdf/<int:order_id>/', views.orderpdf, name='orderpdf'),
 ]

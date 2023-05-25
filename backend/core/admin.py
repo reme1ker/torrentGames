@@ -14,6 +14,7 @@ class GamesModelAdmin(admin.ModelAdmin):
                     "processor", "ram",
                     "video_card", "free_memory"]
     search_fields = ["game_name", "release_date"]
+    list_filter = ["discount", "release_date"]
     inlines = [ImageInline]
 
     class Meta:

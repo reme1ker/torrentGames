@@ -4,17 +4,19 @@
     <div class="row menu mx-auto ">
         <a class="p0" href="/"><img style="margin: 0 0 0 auto" class="col-sm-12 col-md-5 col-lg-6"
                                     src="{% static 'logo.png' %}"></a>
-        <div class="find-block col-sm-12 col-md-5 col-lg-4">
+        <div class="find-block container-fluid m0 col-sm-12 col-md-5 col-lg-4">
             <form action="{% url 'home_page' %}">
                 <input id="searchMe" class="search" style="margin: 0" type="text" name="q" placeholder="Введите название игры">
                 <button type="submit" class="find" id="find" onclick="searchThis()">НАЙТИ</button>
+
             </form>
+                            <span class="sp">лучший портал с игровыми новинками</span>
         </div>
     </div>
     <div class="user-enter">
         {% if user.is_authenticated %}
             <div class="enter-buttons">
-                <a href="/profile/">
+                <a class="adm" href="/profile/">
                     <div class="userName">{{ user.username }}</div>
                 </a>
                 <a href="/logout/">

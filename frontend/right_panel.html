@@ -1,8 +1,22 @@
 {% load slider_tags %}
-<div class="RightPanel col-md-3 p0 taC">
+<div class="RightPanel col-sm-12 col-md-4 col-lg-3 p0 taC">
 
     <div class="categories">
         <h5 class="categoriesTitle">Категории</h5>
+    <div class="dopFiltr">
+        <a href="{% url 'home_page' %}">
+            <div class="categoryName">ВСЕ ИГРЫ</div>
+        </a>
+        <a href="{% url 'filtered' 1 %} ">
+            <div class="categoryName">ИГРЫ НА СЛАБЫЙ ПК</div>
+        </a>
+        <a href="{% url 'filtered' 2 %} ">
+            <div class="categoryName">ИГРЫ 2022 ГОДА</div>
+        </a>
+        <a href="{% url 'filtered' 3 %} ">
+            <div class="categoryName">БОЛЬШИЕ СКИДКИ</div>
+        </a>
+</div>
         {% get_categories as categories %}
         {% for category in categories %}
             {% if category.category_name %}
@@ -13,6 +27,7 @@
                 </a>
             {% endif %}
         {% endfor %}
+
     </div>
 
     <div class="popular">

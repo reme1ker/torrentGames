@@ -14,15 +14,12 @@
             }
 
         }
-    function youAded() {
-            alert("Игра успешно добавлена в корзину!")
-        }
 
     </script>
 
     <div class="container-fluid p0">
-        <div class="row">
-            <div class="GameDetail col-md-9 taC">
+        <div class="row m0">
+            <div class="GameDetail col-lg-9 col-md-8 taC">
 
                 {% load thumbnail %}
 
@@ -53,7 +50,7 @@
                         </div>
                         {% if user.is_authenticated %}
                             <a href="{% url 'basket_add' games.id %}">
-                            <button onclick="youAded()" id="addToBasket" class="btn btn-primary addToBasket"  >
+                            <button id="addToBasket" class="btn btn-primary addToBasket"  >
                                 Добавить в корзину
                             </button></a>
                         {% else %}

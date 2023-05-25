@@ -10,6 +10,7 @@ import subprocess
 from backend.users.models import Profile
 from django.db.models import Q
 
+
 def index(request, category_id=None, filtered=None):
     query = request.GET.get('q')
     if category_id:
@@ -77,17 +78,24 @@ def basket_add(request, game_id):
     baskets = Basket.objects.filter(user_id=request.user.id, game=game)
     if not baskets.exists():
         Basket.objects.create(user_id=request.user.id, game_id=game_id, quantity=1)
+        messages.success(request, f'Товар добавлен в корзину')
     else:
         basket = baskets.first()
         basket.quantity += 1
         basket.save()
-
+        messages.success(request, f'Товар добавлен в корзину')
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
-def basket_remove(request, basket_id):
+def basket_remove(request, basket_id, game_id=None):
     basket = Basket.objects.get(id=basket_id)
-    basket.delete()
+    if game_id and basket.quantity > 1:
+        basket.quantity -= 1
+        basket.save()
+        messages.success(request, f'Копия игры удалена')
+    else:
+        basket.delete()
+        messages.success(request, f'Товар удален из вашей корзины')
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 

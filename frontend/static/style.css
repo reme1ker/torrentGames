@@ -53,7 +53,6 @@ body {
 }
 
 .menu span {
-    position: absolute;
     margin: 37px 0 0 2px;
     font-family: 'Serif';
     font-style: italic;
@@ -148,7 +147,7 @@ body {
     background-color: dodgerblue;
     color: white;
     padding: 15px 27px 15px 27px;
-    font-family: inherit!important;
+    font-family: inherit !important;
 }
 
 .menuContent a {
@@ -233,7 +232,7 @@ body {
 }
 
 
-.categoryName:hover, .categoryName:focus{
+.categoryName:hover, .categoryName:focus {
     color: black;
     background-color: lightskyblue;
     border-radius: 7px;
@@ -278,6 +277,7 @@ body {
 
 .copyrights {
     opacity: 0.3;
+    margin-bottom: 0 !important;
 }
 
 .registerForm {
@@ -312,7 +312,7 @@ body {
 }
 
 .user-enter {
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 
 .user-enter a {
@@ -571,58 +571,181 @@ iframe:hover {
     text-decoration: none;
 }
 
-/*@media screen and (max-width: 820px) {*/
-/*    .user-enter {*/
-/*        top: 25px !important;*/
-/*        left: 65% !important;*/
-/*    }*/
+.dopFiltr {
+    display: none;
+}
 
-/*    .menu img {*/
-/*        object-fit: cover;*/
-/*        max-width: 350px !important;*/
-/*        padding: 20px 0 0 0;*/
-/*    }*/
+.menu {
+    margin: 15px;
+}
 
-/*    .find-block {*/
-/*        padding: 20px 0 0 20px!important;*/
-/*    }*/
+@media screen and (max-width: 820px) {
 
-/*    .search {*/
-/*        min-width: 150px !important;*/
-/*    }*/
+    .Card h4 {
+        font-size: 16px;
+    }
 
-/*    .find {*/
-/*        width: 90px !important;*/
-/*    }*/
-/*}*/
+    .menu img {
+        object-fit: cover;
+        max-width: 350px !important;
+        padding: 20px 0 0 0;
+    }
 
-/*@media screen and (max-width: 576px) {*/
-/*    .menu img {*/
-/*        object-fit: cover;*/
-/*        max-width: 350px;*/
-/*    }*/
+    iframe {
+        width: 420px !important;
+    }
 
-/*    .search {*/
-/*        min-width: 120px !important;*/
-/*    }*/
+    .search {
+        min-width: 150px !important;
+    }
 
-/*    .find {*/
-/*        min-width: 70px !important;*/
-/*    }*/
+    .find {
+        width: 90px !important;
+    }
 
-/*    .find-block span {*/
-/*        display: none;*/
-/*    }*/
+    .find-block span {
+        display: none !important;
+    }
 
-/*    .find-block {*/
-/*        margin-bottom: 25px;*/
-/*    }*/
+    .menuContent {
+        display: none;
+    }
 
-/*    .user-enter {*/
-/*        display: none;*/
-/*    }*/
+    .dopFiltr {
+        display: unset;
+    }
 
-/*    .slide__title {*/
-/*        font-size: 15px;*/
-/*    }*/
-/*}*/
+    .list-group span {
+        height: 40px;
+    }
+
+    .underCard .pa {
+        padding: 10px 0 0 10px;
+    }
+
+    .DeleteGame {
+        padding: 10px 0 0 0;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .find-block form {
+        padding: 20px 0 0 50px !important;
+    }
+
+
+    .find-block span {
+        display: none !important;
+    }
+
+    .menu img {
+        object-fit: cover;
+        max-width: 350px;
+    }
+
+    .search {
+        min-width: 120px !important;
+    }
+
+    .find {
+        min-width: 70px !important;
+    }
+
+    .sp {
+        display: none;
+    }
+
+    .find-block {
+        padding: 0 !important;
+        margin: 0 0 25px 50px;
+    }
+
+
+    .slide__title {
+        font-size: 15px;
+    }
+
+    .menuContent {
+        display: none;
+    }
+
+    .main-content {
+        margin: 0 !important;
+    }
+
+    .gameCard {
+        padding: 20px;
+        font-size: 14px !important;
+    }
+
+    .gameCard img {
+        object-fit: cover;
+        max-width: 140px !important;
+    }
+
+    .cardDiscription {
+        padding: 5px !important;
+    }
+
+    .content .row {
+        padding: 0 !important;
+    }
+
+    .wi100 {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .popular {
+        margin: 10px !important;
+        text-align: center;
+    }
+
+    .categories {
+        margin: 10px !important;
+    }
+
+    .enter-buttons a {
+        padding: 10px 0 10px 10px;
+    }
+
+    iframe {
+        width: 320px;
+    }
+
+    #lightgallery img {
+        object-fit: cover;
+        max-width: 320px !important;
+        margin: 10px auto;
+    }
+
+    #lightgallery a {
+        text-align: center;
+    }
+
+    .GameDetail {
+        padding: 0 !important;
+    }
+
+    .GameDetail .discr {
+        margin: 0;
+        padding: 10px 15px 10px 15px;
+    }
+
+    .enter-buttons {
+        padding-bottom: 10px;
+    }
+
+    .dopFiltr {
+        display: unset;
+    }
+
+    .underCard {
+        padding: 10px;
+    }
+
+    .alert {
+        margin-top: 70px;
+    }
+}

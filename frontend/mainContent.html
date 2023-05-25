@@ -12,14 +12,12 @@
             }
         }
 
-        function youAded() {
-            alert("Игра успешно добавлена в корзину!")
-        }
+
     </script>
 
     <div class="container-fluid p0">
-        <div class="row">
-            <div class="MainContent col-md-9 p0 taC">
+        <div class="row wi100">
+            <div class="MainContent col-md-8  col-lg-9 p0 taC">
 
                 <div class="menuContent">
                     <a href="{% url 'home_page' %}">
@@ -35,11 +33,12 @@
                         <span class="lastLi">БОЛЬШИЕ СКИДКИ</span>
                     </a>
                 </div>
-                <div class="content container-fluid">
-                    <div class="row px-3">
+
+                <div class="content container-fluid p0">
+                    <div class="row container-fluid px-3">
 
                         {% for game in games %}
-                            <div class="gameCard col-sm-10 col-md-6">
+                            <div class="gameCard col-sm-10 col-md-12 col-lg-6">
 
 
                                 {% if game.main_image %}
@@ -71,7 +70,7 @@
                                         </div>
                                         {% if user.is_authenticated %}
                                             <form action="baskets/add/{{ game.id }}/">
-                                                <button id="addToBasket" type="submit" onclick="youAded()"
+                                                <button id="addToBasket" type="submit"
                                                         class="btn btn-primary addToBasket">
                                                     Добавить в корзину
                                                 </button>
