@@ -108,7 +108,7 @@ class Games(models.Model):
                                          blank=True)
     new = models.BooleanField('Новинка', default=True, null=True, blank=True)
     trailer = models.CharField('Трейлер игры (ссылка iframe youtube)', max_length=1000, blank=True, null=True)
-    score = models.IntegerField('Популярность игры', null=True, blank=True, editable=False)
+
 
     def __str__(self):
         return self.game_name

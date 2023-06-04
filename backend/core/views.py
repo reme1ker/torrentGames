@@ -8,7 +8,7 @@ from docx.shared import Pt
 
 from backend.core.models import Games, Basket, Order, Categories, Review
 from backend.core.forms import ReviewAddForm
-from core.randomkey import randomkey
+from backend.core.randomkey import randomkey
 import subprocess
 from backend.users.models import Profile
 from django.db.models import Q
@@ -32,7 +32,7 @@ def index(request, category_id=None, filtered=None):
         else:
             messages.warning(request, f'По вашему запросу не найдено ни одной игры')
     else:
-        games = Games.objects.all()
+        games = Games.objects.all().order_by('-id')
     paginator = Paginator(games, 10)
     page = request.GET.get('page')
     page_number = page
